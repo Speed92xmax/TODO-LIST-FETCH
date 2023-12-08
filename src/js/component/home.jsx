@@ -5,9 +5,9 @@ import Input from "./input";
 const Home = () => {
   return (
     <>
-	<div className="container m-5">
-	<Input />
-	</div>
+      <div className="container-fluid y-5 d-flex justify-content-center w-75">
+        <Input />
+      </div>
     </>
   );
 };
