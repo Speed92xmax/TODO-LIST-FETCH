@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 
-const InputComponent = ({ listValue, setListValue }) => {
+const InputComponent = ({ listValue, editListFetch }) => {
   const [inputValue, setInputValue] = useState("");
+
+  const endpointGetList =
+    "https://playground.4geeks.com/apis/fake/todos/user/speed92xmax";
+
+  const fetchParams = {
+    method: "PUT",
+    body: JSON.stringify([
+      ...listValue,
+      {
+        label: inputValue,
+        done: false,
+      },
+    ]),
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
 
   const addTaskHandle = () => {
     if (inputValue == "") {
       return alert("Please enter a value");
     }
-    setListValue([...listValue, inputValue]);
+    editListFetch(fetchParams);
     setInputValue("");
   };
 

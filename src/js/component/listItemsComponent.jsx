@@ -1,13 +1,22 @@
 import React from "react";
 
-const ListItemsComponent = ({ listValue, setListValue }) => {
-  const removeElement = (indexId, value) => {
+const ListItemsComponent = ({ listValue, editListFetch }) => {
+  const removeElement = (id, value) => {
     let confirmMessage = confirm(`
         Are you sure want to delete : "${value}"`);
 
     if (confirmMessage) {
-      const newList = listValue.filter((_, index) => indexId !== index);
-      setListValue(newList);
+      const newList = listValue.filter((element) => element.id !== id);
+
+      const fetchParams = {
+        method: "PUT",
+        body: JSON.stringify(newList),
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      editListFetch(fetchParams);
     } else {
       return;
     }
@@ -23,10 +32,13 @@ const ListItemsComponent = ({ listValue, setListValue }) => {
               key={index}
               className="list-group-item d-flex justify-content-between w-75"
             >
-              {value}
-              <a onClick={() => removeElement(index, value)}>
-                <i className="fa-regular fa-trash-can"></i>
-              </a>
+              {value.label}
+              {value.task}
+              <div className="form-check d-flex  gap-5">
+                <a onClick={() => removeElement(value.id, value.label)}>
+                  <i className="fa-regular fa-trash-can"></i>
+                </a>
+              </div>
             </li>
           );
         })}
